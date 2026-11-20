@@ -18,7 +18,7 @@ What it does:
 
 ### Add it to Claude
 
-- **Claude.ai or the desktop app:** Settings, then Capabilities, then Skills, and upload
+- **Claude.ai or the desktop app:** add a skill from Claude's settings and upload
   `rise-video-graphics.zip` from this repo.
 - **Claude Code:** copy the `rise-video-graphics/` folder into `~/.claude/skills/`.
 
