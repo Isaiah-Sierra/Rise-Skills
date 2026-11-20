@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+@font-face { font-family: "Rise Display"; src: url('assets/fonts/Montserrat-latin.woff2') format('woff2'); font-weight: 100 900; }
+@font-face { font-family: "Rise Slab"; src: url('assets/fonts/RobotoSlab-latin.woff2') format('woff2'); font-weight: 100 900; }
+@font-face { font-family: "Rise Text"; src: url('assets/fonts/SourceSans3-latin.woff2') format('woff2'); font-weight: 200 900; }
+:root {
+  --paper: #FFFFFF; --mist: #E7E4EA; --navy: #26334A; --charcoal: #3C4247;
+  --red: #EC0044; --teal: #12AEAB; --mint: #CFE3D8;
+  --display: "Rise Display", sans-serif; --slab: "Rise Slab", serif; --text: "Rise Text", sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+#root { position: relative; width: 1920px; height: 1080px; background: var(--paper); font-family: var(--text); color: var(--navy); }
+#bg { position: absolute; inset: 0; overflow: hidden; }
+#bgring { position: absolute; left: 1080px; top: -170px; width: 1180px; height: 1180px; color: var(--mist); opacity: 0.55; }
+#bgring svg { width: 100%; height: 100%; }
+.scene { position: absolute; inset: 0; }
+.inner { position: absolute; inset: 0; }
+.slab { font-family: var(--slab); font-weight: 700; letter-spacing: -0.01em; }
+.eyebrow { position: absolute; left: 192px; top: 250px; font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); }
+.eyebrow.small { position: static; font-size: 28px; color: var(--charcoal); }
+.hero { position: absolute; left: 192px; top: 300px; font-size: 116px; line-height: 1.12; color: var(--navy); }
+.hero .line { display: block; }
+.w { display: inline-block; }
+.hl { position: relative; display: inline-block; }
+.uline { position: absolute; left: 0; right: 0; bottom: -6px; height: 10px; background: var(--red); transform-origin: left center; }
+#s1duet { position: absolute; left: 192px; top: 250px; width: 1100px; }
+.duetrow { display: flex; align-items: center; gap: 40px; }
+.cmark { width: 150px; height: 150px; flex: none; }
+.cmark svg { width: 100%; height: 100%; display: block; }
+.cmark.sm { width: 92px; height: 92px; }
+.wordmark { font-family: var(--display); font-weight: 800; font-size: 140px; letter-spacing: -0.03em; color: var(--navy); line-height: 1; }
+.sub { margin-top: 26px; font-family: var(--text); font-size: 46px; color: var(--charcoal); }
+#s1week { position: absolute; left: 192px; top: 650px; }
+.days { display: flex; gap: 18px; margin-top: 22px; }
+.day { position: relative; width: 84px; height: 84px; border-radius: 42px; border: 3px solid var(--navy); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 32px; color: var(--navy); background: var(--paper); }
+.dot { position: absolute; right: -4px; top: -4px; width: 26px; height: 26px; border-radius: 13px; background: var(--red); }
+.title { position: absolute; left: 192px; top: 296px; font-size: 76px; line-height: 1.12; color: var(--navy); }
+.title.s2t { font-size: 64px; width: 860px; }
+.title.side { top: 520px; width: 620px; font-size: 66px; }
+.num { position: absolute; left: 180px; top: 150px; font-size: 300px; line-height: 1; color: var(--red); }
+.src { position: absolute; left: 192px; width: 240px; height: 64px; justify-content: center; border-radius: 32px; background: var(--navy); color: var(--paper); font-family: var(--display); font-weight: 700; font-size: 28px; display: flex; align-items: center; }
+.wires { position: absolute; left: 0; top: 0; }
+.wire { fill: none; stroke: var(--navy); stroke-width: 3; stroke-linecap: round; opacity: 0.45; }
+#s2hub { position: absolute; left: 760px; top: 462px; width: 220px; height: 220px; }
+.hubdisc { width: 220px; height: 220px; border-radius: 110px; background: var(--paper); border: 4px solid var(--mist); display: flex; align-items: center; justify-content: center; }
+.hubdisc svg { width: 130px; height: 130px; }
+.hublabel { position: absolute; left: -40px; width: 300px; top: 236px; text-align: center; font-family: var(--display); font-weight: 700; font-size: 28px; color: var(--navy); }
+.out { position: absolute; left: 1160px; width: 580px; height: 76px; border-radius: 14px; background: var(--paper); border: 3px solid var(--mist); display: flex; align-items: center; padding: 0 26px; font-family: var(--display); font-size: 28px; color: var(--navy); }
+.out b { font-weight: 700; white-space: nowrap; }
+.out::before { content: ""; width: 16px; height: 16px; border-radius: 8px; background: var(--teal); margin-right: 20px; flex: none; }
+.panel { position: absolute; left: 900px; top: 190px; width: 830px; height: 640px; border-radius: 28px; background: var(--paper); border: 3px solid var(--mist); padding: 40px; }
+.ask { margin-left: auto; width: fit-content; max-width: 620px; padding: 22px 32px; border-radius: 30px 30px 6px 30px; background: var(--navy); color: var(--paper); font-family: var(--text); font-size: 36px; font-weight: 600; }
+.from { margin-top: 34px; font-family: var(--display); font-weight: 700; font-size: 28px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--charcoal); }
+.row { display: flex; align-items: center; gap: 22px; margin-top: 26px; height: 64px; }
+.av { width: 56px; height: 56px; border-radius: 28px; background: var(--mist); flex: none; }
+.bar { height: 18px; border-radius: 9px; background: var(--charcoal); opacity: 0.22; }
+.chip { margin-left: auto; padding: 10px 22px; border-radius: 24px; border: 3px solid var(--red); color: var(--red); font-family: var(--display); font-weight: 700; font-size: 28px; }
+.tile { position: absolute; left: 920px; width: 300px; height: 120px; border-radius: 20px; background: var(--paper); border: 3px solid var(--mist); display: flex; align-items: center; gap: 22px; padding: 0 28px; font-family: var(--display); font-weight: 700; font-size: 28px; color: var(--navy); }
+.tile svg { fill: none; stroke: var(--navy); stroke-width: 3; stroke-linejoin: round; }
+.doc { position: absolute; left: 1300px; top: 190px; width: 430px; height: 660px; border-radius: 18px; background: var(--paper); border: 3px solid var(--navy); padding: 44px 40px; }
+.dochead { font-family: var(--slab); font-weight: 700; font-size: 40px; color: var(--navy); }
+.docsub { margin-top: 8px; margin-bottom: 30px; font-family: var(--text); font-size: 28px; color: var(--charcoal); }
+.dl { display: block; height: 16px; border-radius: 8px; background: var(--charcoal); opacity: 0.2; margin-top: 30px; transform-origin: left center; }
+.mark { position: absolute; left: 40px; top: 238px; width: 340px; height: 30px; border-radius: 6px; background: var(--red); opacity: 0.18; transform-origin: left center; }
+.card { position: absolute; left: 900px; top: 210px; width: 830px; height: 600px; border-radius: 28px; background: var(--paper); border: 3px solid var(--mist); padding: 48px; }
+.cardhead { display: flex; align-items: center; justify-content: space-between; font-family: var(--display); font-weight: 700; font-size: 36px; color: var(--navy); margin-bottom: 26px; }
+.date { padding: 10px 22px; border-radius: 12px; background: var(--navy); color: var(--paper); font-size: 28px; }
+.check { display: flex; align-items: center; gap: 26px; margin-top: 30px; font-family: var(--text); font-size: 38px; color: var(--charcoal); }
+.tick { width: 54px; height: 54px; border-radius: 27px; background: var(--red); display: flex; align-items: center; justify-content: center; flex: none; }
+.tick svg { fill: none; stroke: var(--paper); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+.tag { position: absolute; left: 48px; bottom: 44px; padding: 14px 26px; border-radius: 26px; border: 3px solid var(--teal); color: var(--navy); font-family: var(--display); font-weight: 700; font-size: 28px; }
+.colhead { position: absolute; top: 250px; font-family: var(--display); font-weight: 800; font-size: 40px; color: var(--navy); }
+.note { position: absolute; left: 0; top: 0; width: 360px; height: 104px; border-radius: 16px; background: var(--paper); border: 3px solid var(--mist); padding: 26px 28px; }
+.note i { display: block; height: 14px; border-radius: 7px; background: var(--charcoal); opacity: 0.22; margin-bottom: 20px; }
+.hero.mid { top: 300px; font-size: 104px; }
+#s7a { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+.pill { position: absolute; top: 560px; height: 80px; padding: 0 36px; border-radius: 40px; border: 3px solid var(--navy); display: flex; align-items: center; font-family: var(--display); font-weight: 700; font-size: 32px; color: var(--navy); }
+#p1 { left: 192px; } #p2 { left: 412px; } #p3 { left: 610px; }
+.yes { position: absolute; left: 1250px; top: 520px; width: 360px; height: 160px; border-radius: 80px; background: var(--red); color: var(--paper); font-family: var(--display); font-weight: 800; font-size: 72px; display: flex; align-items: center; justify-content: center; }
+#s7b { position: absolute; left: 192px; top: 520px; width: 1500px; }
+.person { position: absolute; left: 0; top: 0; width: 120px; height: 150px; }
+.person .head { position: absolute; left: 32px; top: 0; width: 56px; height: 56px; border-radius: 28px; background: var(--navy); }
+.person .body { position: absolute; left: 6px; top: 66px; width: 108px; height: 76px; border-radius: 54px 54px 12px 12px; background: var(--navy); }
+.money { position: absolute; left: 170px; top: 26px; font-family: var(--display); font-weight: 700; font-size: 54px; color: var(--navy); white-space: nowrap; }
+.never { position: absolute; left: 170px; top: 140px; padding-left: 28px; border-left: 8px solid var(--red); font-family: var(--text); font-size: 48px; color: var(--charcoal); white-space: nowrap; }
+#s8a { position: absolute; left: 192px; top: 340px; }
+.big { font-size: 140px; line-height: 1.12; color: var(--navy); }
+.big.red { color: var(--red); }
+#s8b { position: absolute; inset: 0; }
+#s8logo { position: absolute; left: 870px; top: 170px; width: 180px; height: 279px; color: var(--navy); }
+#s8logo svg { width: 100%; height: 100%; }
+.closer { position: absolute; left: 0; width: 1920px; top: 520px; display: flex; align-items: center; justify-content: center; gap: 30px; font-family: var(--display); font-weight: 800; font-size: 96px; letter-spacing: -0.02em; color: var(--navy); }
+.footer { position: absolute; left: 0; width: 1920px; top: 700px; text-align: center; font-family: var(--display); font-weight: 600; font-size: 30px; letter-spacing: 0.16em; color: var(--charcoal); }
+.cap { position: absolute; left: 192px; top: 878px; width: 1536px; height: 104px; display: flex; align-items: center; justify-content: center; }
+.captext { display: inline-block; max-width: 1480px; text-align: center; font-family: var(--text); font-weight: 600; font-size: 38px; line-height: 1.3; color: var(--charcoal); }
+</style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="70" data-width="1920" data-height="1080">
+    <div id="bg" class="clip" data-start="0" data-duration="70" data-track-index="0"><div id="bgring"><svg class="ring" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="283.89 122.23 224.22 224.22"><path fill="currentColor" fill-rule="evenodd" d="M 395.996094 323.480469 C 346.769531 323.480469 306.863281 283.574219 306.863281 234.347656 C 306.863281 185.117188 346.769531 145.207031 395.996094 145.207031 C 445.226562 145.207031 485.136719 185.117188 485.136719 234.347656 C 485.136719 283.574219 445.226562 323.480469 395.996094 323.480469 M 395.996094 126.234375 C 336.289062 126.234375 287.890625 174.640625 287.890625 234.347656 C 287.890625 294.054688 336.289062 342.453125 395.996094 342.453125 C 455.703125 342.453125 504.109375 294.054688 504.109375 234.347656 C 504.109375 174.640625 455.703125 126.234375 395.996094 126.234375"/><path fill="currentColor" fill-rule="evenodd" d="M 468.417969 263.664062 C 445.222656 265.730469 421.734375 266.808594 398.011719 266.867188 C 372.917969 266.929688 348.085938 265.851562 323.574219 263.671875 C 366.296875 254.695312 401.566406 225.472656 418.867188 186.5 C 423.117188 219.023438 441.867188 246.976562 468.417969 263.664062"/></svg></div></div>
+    <section id="s1" class="clip scene" data-start="0" data-duration="9" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s1i">
+  <div class="eyebrow" id="s1eye">Rise Church staff</div>
+  <h1 class="slab hero" id="s1head"><span class="line"><span class="w">Alise,</span> <span class="w">meet</span> <span class="w">your</span></span><span class="line"><span class="w">new</span> <span class="hl" id="s1hl"><span class="w">chief</span> <span class="w">of</span> <span class="w">staff.</span><i class="uline" id="s1ul"></i></span></span></h1>
+  <div id="s1duet">
+    <div class="duetrow"><div class="cmark" id="s1cm"><svg class="claudemark" aria-hidden="true" width="248" height="248" viewBox="0 0 248 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M52.4285 162.873L98.7844 136.879L99.5485 134.602L98.7844 133.334H96.4921L88.7237 132.862L62.2346 132.153L39.3113 131.207L17.0249 130.026L11.4214 128.844L6.2 121.873L6.7094 118.447L11.4214 115.257L18.171 115.847L33.0711 116.911L55.485 118.447L71.6586 119.392L95.728 121.873H99.5485L100.058 120.337L98.7844 119.392L97.7656 118.447L74.5877 102.732L49.4995 86.1905L36.3823 76.62L29.3779 71.7757L25.8121 67.2858L24.2839 57.3608L30.6515 50.2716L39.3113 50.8623L41.4763 51.4531L50.2636 58.1879L68.9842 72.7209L93.4357 90.6804L97.0015 93.6343L98.4374 92.6652L98.6571 91.9801L97.0015 89.2625L83.757 65.2772L69.621 40.8192L63.2534 30.6579L61.5978 24.632C60.9565 22.1032 60.579 20.0111 60.579 17.4246L67.8381 7.49965L71.9133 6.19995L81.7193 7.49965L85.7946 11.0443L91.9074 24.9865L101.714 46.8451L116.996 76.62L121.453 85.4816L123.873 93.6343L124.764 96.1155H126.292V94.6976L127.566 77.9197L129.858 57.3608L132.15 30.8942L132.915 23.4505L136.608 14.4708L143.994 9.62643L149.725 12.344L154.437 19.0788L153.8 23.4505L150.998 41.6463L145.522 70.1215L141.957 89.2625H143.994L146.414 86.7813L156.093 74.0206L172.266 53.698L179.398 45.6635L187.803 36.802L193.152 32.5484H203.34L210.726 43.6549L207.415 55.1159L196.972 68.3492L188.312 79.5739L175.896 96.2095L168.191 109.585L168.882 110.689L170.738 110.53L198.755 104.504L213.91 101.787L231.994 98.7149L240.144 102.496L241.036 106.395L237.852 114.311L218.495 119.037L195.826 123.645L162.07 131.592L161.696 131.893L162.137 132.547L177.36 133.925L183.855 134.279H199.774L229.447 136.524L237.215 141.605L241.8 147.867L241.036 152.711L229.065 158.737L213.019 154.956L175.45 145.977L162.587 142.787H160.805V143.85L171.502 154.366L191.242 172.089L215.82 195.011L217.094 200.682L213.91 205.172L210.599 204.699L188.949 188.394L180.544 181.069L161.696 165.118H160.422V166.772L164.752 173.152L187.803 207.771L188.949 218.405L187.294 221.832L181.308 223.959L174.813 222.777L161.187 203.754L147.305 182.486L136.098 163.345L134.745 164.2L128.075 235.42L125.019 239.082L117.887 241.8L111.902 237.31L108.718 229.984L111.902 215.452L115.722 196.547L118.779 181.541L121.58 162.873L123.291 156.636L123.14 156.219L121.773 156.449L107.699 175.752L86.304 204.699L69.3663 222.777L65.291 224.431L58.2867 220.768L58.9235 214.27L62.8713 208.48L86.304 178.705L100.44 160.155L109.551 149.507L109.462 147.967L108.959 147.924L46.6977 188.512L35.6182 189.93L30.7788 185.44L31.4156 178.115L33.7079 175.752L52.4285 162.873Z" fill="#D97757"/>
+</svg>
+</div><div class="wordmark" id="s1wm">Claude Duet</div></div>
+    <div class="sub" id="s1sub">A personal Claude you simply text.</div>
+  </div>
+  <div id="s1week">
+    <div class="eyebrow small" id="s1weye">Already knows your week</div>
+    <div class="days">
+      <div class="day">M</div><div class="day" id="s1tue">T<i class="dot" id="s1dot"></i></div><div class="day">W</div><div class="day">T</div><div class="day">F</div>
+    </div>
+  </div>
+      </div>
+    </section>
+    <section id="s2" class="clip scene" data-start="9" data-duration="13" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s2i">
+  <div class="eyebrow" id="s2eye">What it does</div>
+  <h2 class="slab title s2t" id="s2title">Connected to your work.</h2>
+  <div class="src" id="src1" style="top:420px">Gmail</div>
+  <div class="src" id="src2" style="top:540px">Calendar</div>
+  <div class="src" id="src3" style="top:660px">Drive</div>
+  <svg class="wires" viewBox="0 0 1920 1080" width="1920" height="1080">
+    <path class="wire" id="wi1" d="M 432 452 C 600 452 620 572 760 572"/>
+    <path class="wire" id="wi2" d="M 432 572 L 760 572"/>
+    <path class="wire" id="wi3" d="M 432 692 C 600 692 620 572 760 572"/>
+    <path class="wire" id="wo1" d="M 980 572 C 1080 572 1080 330 1160 330"/>
+    <path class="wire" id="wo2" d="M 980 572 C 1080 572 1080 460 1160 460"/>
+    <path class="wire" id="wo3" d="M 980 572 C 1080 572 1080 590 1160 590"/>
+    <path class="wire" id="wo4" d="M 980 572 C 1080 572 1080 720 1160 720"/>
+  </svg>
+  <div id="s2hub"><div class="hubdisc"><svg class="claudemark" aria-hidden="true" width="248" height="248" viewBox="0 0 248 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M52.4285 162.873L98.7844 136.879L99.5485 134.602L98.7844 133.334H96.4921L88.7237 132.862L62.2346 132.153L39.3113 131.207L17.0249 130.026L11.4214 128.844L6.2 121.873L6.7094 118.447L11.4214 115.257L18.171 115.847L33.0711 116.911L55.485 118.447L71.6586 119.392L95.728 121.873H99.5485L100.058 120.337L98.7844 119.392L97.7656 118.447L74.5877 102.732L49.4995 86.1905L36.3823 76.62L29.3779 71.7757L25.8121 67.2858L24.2839 57.3608L30.6515 50.2716L39.3113 50.8623L41.4763 51.4531L50.2636 58.1879L68.9842 72.7209L93.4357 90.6804L97.0015 93.6343L98.4374 92.6652L98.6571 91.9801L97.0015 89.2625L83.757 65.2772L69.621 40.8192L63.2534 30.6579L61.5978 24.632C60.9565 22.1032 60.579 20.0111 60.579 17.4246L67.8381 7.49965L71.9133 6.19995L81.7193 7.49965L85.7946 11.0443L91.9074 24.9865L101.714 46.8451L116.996 76.62L121.453 85.4816L123.873 93.6343L124.764 96.1155H126.292V94.6976L127.566 77.9197L129.858 57.3608L132.15 30.8942L132.915 23.4505L136.608 14.4708L143.994 9.62643L149.725 12.344L154.437 19.0788L153.8 23.4505L150.998 41.6463L145.522 70.1215L141.957 89.2625H143.994L146.414 86.7813L156.093 74.0206L172.266 53.698L179.398 45.6635L187.803 36.802L193.152 32.5484H203.34L210.726 43.6549L207.415 55.1159L196.972 68.3492L188.312 79.5739L175.896 96.2095L168.191 109.585L168.882 110.689L170.738 110.53L198.755 104.504L213.91 101.787L231.994 98.7149L240.144 102.496L241.036 106.395L237.852 114.311L218.495 119.037L195.826 123.645L162.07 131.592L161.696 131.893L162.137 132.547L177.36 133.925L183.855 134.279H199.774L229.447 136.524L237.215 141.605L241.8 147.867L241.036 152.711L229.065 158.737L213.019 154.956L175.45 145.977L162.587 142.787H160.805V143.85L171.502 154.366L191.242 172.089L215.82 195.011L217.094 200.682L213.91 205.172L210.599 204.699L188.949 188.394L180.544 181.069L161.696 165.118H160.422V166.772L164.752 173.152L187.803 207.771L188.949 218.405L187.294 221.832L181.308 223.959L174.813 222.777L161.187 203.754L147.305 182.486L136.098 163.345L134.745 164.2L128.075 235.42L125.019 239.082L117.887 241.8L111.902 237.31L108.718 229.984L111.902 215.452L115.722 196.547L118.779 181.541L121.58 162.873L123.291 156.636L123.14 156.219L121.773 156.449L107.699 175.752L86.304 204.699L69.3663 222.777L65.291 224.431L58.2867 220.768L58.9235 214.27L62.8713 208.48L86.304 178.705L100.44 160.155L109.551 149.507L109.462 147.967L108.959 147.924L46.6977 188.512L35.6182 189.93L30.7788 185.44L31.4156 178.115L33.7079 175.752L52.4285 162.873Z" fill="#D97757"/>
+</svg>
+</div><div class="hublabel" id="s2hl">Claude Duet</div></div>
+  <div class="out" id="out1" style="top:292px"><b>One task list</b></div>
+  <div class="out" id="out2" style="top:422px"><b>Morning brief</b></div>
+  <div class="out" id="out3" style="top:552px"><b>Check-ins when you’re needed</b></div>
+  <div class="out" id="out4" style="top:682px"><b>Longer work, in the background</b></div>
+      </div>
+    </section>
+    <section id="s3" class="clip scene" data-start="22" data-duration="8.4" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s3i">
+  <div class="num slab" id="s3num">1</div>
+  <div class="eyebrow" id="s3eye" style="top:470px">Receipts</div>
+  <h2 class="slab title side" id="s3title">Friendly nudges, drafted.</h2>
+  <div class="panel" id="s3panel">
+    <div class="ask" id="s3ask">Who still owes receipts this month?</div>
+    <div class="from" id="s3from">From your mail and sheets</div>
+    <div class="row" id="r1"><i class="av"></i><i class="bar" style="width:210px"></i><span class="chip" id="ch1">Nudge drafted</span></div><div class="row" id="r2"><i class="av"></i><i class="bar" style="width:260px"></i><span class="chip" id="ch2">Nudge drafted</span></div><div class="row" id="r3"><i class="av"></i><i class="bar" style="width:180px"></i><span class="chip" id="ch3">Nudge drafted</span></div><div class="row" id="r4"><i class="av"></i><i class="bar" style="width:240px"></i><span class="chip" id="ch4">Nudge drafted</span></div>
+  </div>
+      </div>
+    </section>
+    <section id="s4" class="clip scene" data-start="30.4" data-duration="7.1" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s4i">
+  <div class="num slab" id="s4num">2</div>
+  <div class="eyebrow" id="s4eye" style="top:470px">Budget meetings</div>
+  <h2 class="slab title side" id="s4title">A one-page brief, ready.</h2>
+  <div class="tile" id="t1" style="top:300px"><svg viewBox="0 0 48 36" width="64" height="48"><rect x="2" y="2" width="44" height="32" rx="4"/><path d="M4 5 L24 20 L44 5"/></svg><span>Emails</span></div>
+  <div class="tile" id="t2" style="top:540px"><svg viewBox="0 0 48 36" width="64" height="48"><rect x="2" y="2" width="44" height="32" rx="4"/><path d="M2 13 H46 M2 24 H46 M17 2 V34 M32 2 V34"/></svg><span>Spreadsheets</span></div>
+  <svg class="wires" viewBox="0 0 1920 1080" width="1920" height="1080"><path class="wire" id="s4w1" d="M 1220 360 C 1260 360 1260 520 1300 520"/><path class="wire" id="s4w2" d="M 1220 600 C 1260 600 1260 520 1300 520"/></svg>
+  <div class="doc" id="s4doc"><div class="dochead">One-page brief</div><div class="docsub">Department budget meeting</div><i class="dl" id="dl1" style="width:300px"></i><i class="dl" id="dl2" style="width:340px"></i><i class="dl" id="dl3" style="width:260px"></i><i class="dl" id="dl4" style="width:320px"></i><i class="dl" id="dl5" style="width:220px"></i><i class="dl" id="dl6" style="width:330px"></i><i class="dl" id="dl7" style="width:280px"></i><i class="mark" id="s4mark"></i></div>
+      </div>
+    </section>
+    <section id="s5" class="clip scene" data-start="37.5" data-duration="8.1" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s5i">
+  <div class="num slab" id="s5num">3</div>
+  <div class="eyebrow" id="s5eye" style="top:470px">Events</div>
+  <h2 class="slab title side" id="s5title">Tracked, held, drafted.</h2>
+  <div class="card" id="s5card">
+    <div class="cardhead"><span>Serve team Christmas party</span><span class="date" id="s5date">Dec 14</span></div>
+    <div class="check" id="k1"><i class="tick" id="tk1"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5 L10 17 L19 7"/></svg></i><span>To-dos tracked</span></div><div class="check" id="k2"><i class="tick" id="tk2"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5 L10 17 L19 7"/></svg></i><span>Dates held</span></div><div class="check" id="k3"><i class="tick" id="tk3"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M5 12.5 L10 17 L19 7"/></svg></i><span>Follow-up email drafted</span></div>
+    <div class="tag" id="s5tag">Ready for you to send</div>
+  </div>
+      </div>
+    </section>
+    <section id="s6" class="clip scene" data-start="45.6" data-duration="8.2" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s6i">
+  <div class="num slab" id="s6num">4</div>
+  <div class="eyebrow" id="s6eye" style="top:470px">Tuesday staff meeting</div>
+  <h2 class="slab title side" id="s6title">Ready for decisions.</h2>
+  <div class="colhead" id="h1" style="left:960px">Proposals<i class="uline" id="h1ul"></i></div>
+  <div class="colhead" id="h2" style="left:1380px">FYIs</div>
+  <div class="note" id="n1"><i style="width:220px"></i><i style="width:140px"></i></div><div class="note" id="n2"><i style="width:180px"></i><i style="width:200px"></i></div><div class="note" id="n3"><i style="width:240px"></i><i style="width:120px"></i></div><div class="note" id="n4"><i style="width:200px"></i><i style="width:170px"></i></div><div class="note" id="n5"><i style="width:160px"></i><i style="width:190px"></i></div><div class="note" id="n6"><i style="width:230px"></i><i style="width:110px"></i></div>
+      </div>
+    </section>
+    <section id="s7" class="clip scene" data-start="53.8" data-duration="10" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s7i">
+  <div class="eyebrow" id="s7eye">You stay in charge</div>
+  <h2 class="slab hero mid" id="s7head">It waits for your yes.</h2>
+  <div id="s7a">
+    <div class="pill" id="p1">Sends</div><div class="pill" id="p2">Pays</div><div class="pill" id="p3">Can’t be undone</div>
+    <div class="yes" id="s7yes">Yes</div>
+  </div>
+  <div id="s7b">
+    <div class="person" id="s7person"><i class="head"></i><i class="body"></i></div>
+    <div class="money" id="s7money">Money always goes to a person for approval.</div>
+    <div class="never" id="s7never">Claude never buys anything on its own.</div>
+  </div>
+      </div>
+    </section>
+    <section id="s8" class="clip scene" data-start="63.8" data-duration="6.2" data-track-index="1" data-track-kind="graphics">
+      <div class="inner" id="s8i">
+  <div id="s8a">
+    <div class="slab big" id="s8l1">Less busy work.</div>
+    <div class="slab big red" id="s8l2">More time for people.</div>
+  </div>
+  <div id="s8b">
+    <div id="s8logo"><svg class="stackmark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="283.89 122.23 224.22 347.53"><path fill="currentColor" fill-rule="evenodd" d="M 395.996094 323.480469 C 346.769531 323.480469 306.863281 283.574219 306.863281 234.347656 C 306.863281 185.117188 346.769531 145.207031 395.996094 145.207031 C 445.226562 145.207031 485.136719 185.117188 485.136719 234.347656 C 485.136719 283.574219 445.226562 323.480469 395.996094 323.480469 M 395.996094 126.234375 C 336.289062 126.234375 287.890625 174.640625 287.890625 234.347656 C 287.890625 294.054688 336.289062 342.453125 395.996094 342.453125 C 455.703125 342.453125 504.109375 294.054688 504.109375 234.347656 C 504.109375 174.640625 455.703125 126.234375 395.996094 126.234375"/><path fill="currentColor" fill-rule="evenodd" d="M 468.417969 263.664062 C 445.222656 265.730469 421.734375 266.808594 398.011719 266.867188 C 372.917969 266.929688 348.085938 265.851562 323.574219 263.671875 C 366.296875 254.695312 401.566406 225.472656 418.867188 186.5 C 423.117188 219.023438 441.867188 246.976562 468.417969 263.664062"/><path fill="currentColor" fill-rule="nonzero" d="M 323.535156 400.546875 C 331.8125 400.546875 337.085938 396.214844 337.085938 389.535156 L 337.085938 389.347656 C 337.085938 382.289062 332.003906 378.429688 323.441406 378.429688 L 306.59375 378.429688 L 306.59375 400.546875 Z M 295.019531 367.890625 L 324.378906 367.890625 C 332.660156 367.890625 339.15625 370.339844 343.386719 374.480469 C 346.871094 378.054688 348.847656 382.949219 348.847656 388.6875 L 348.847656 388.878906 C 348.847656 399.699219 342.351562 406.191406 333.226562 408.824219 L 351.011719 433.761719 L 337.273438 433.761719 L 321.085938 410.800781 L 306.59375 410.800781 L 306.59375 433.761719 L 295.019531 433.761719 Z M 295.019531 367.890625"/><path fill="currentColor" fill-rule="nonzero" d="M 361.738281 367.890625 L 373.3125 367.890625 L 373.3125 433.761719 L 361.738281 433.761719 Z M 361.738281 367.890625"/><path fill="currentColor" fill-rule="nonzero" d="M 384.511719 424.164062 L 391.472656 415.882812 C 397.78125 421.339844 404.179688 424.445312 412.269531 424.445312 C 419.421875 424.445312 423.941406 421.058594 423.941406 416.167969 L 423.941406 415.976562 C 423.941406 411.273438 421.304688 408.730469 409.070312 405.910156 C 395.050781 402.519531 387.148438 398.382812 387.148438 386.242188 L 387.148438 386.054688 C 387.148438 374.761719 396.558594 366.949219 409.636719 366.949219 C 419.234375 366.949219 426.859375 369.867188 433.539062 375.230469 L 427.328125 383.984375 C 421.398438 379.5625 415.46875 377.207031 409.449219 377.207031 C 402.675781 377.207031 398.722656 380.691406 398.722656 385.019531 L 398.722656 385.207031 C 398.722656 390.289062 401.730469 392.546875 414.4375 395.558594 C 428.363281 398.945312 435.515625 403.933594 435.515625 414.847656 L 435.515625 415.035156 C 435.515625 427.363281 425.824219 434.703125 411.988281 434.703125 C 401.921875 434.703125 392.417969 431.222656 384.511719 424.164062"/><path fill="currentColor" fill-rule="nonzero" d="M 447.183594 367.890625 L 496.023438 367.890625 L 496.023438 378.242188 L 458.761719 378.242188 L 458.761719 395.371094 L 491.789062 395.371094 L 491.789062 405.71875 L 458.761719 405.71875 L 458.761719 423.410156 L 496.496094 423.410156 L 496.496094 433.761719 L 447.183594 433.761719 Z M 447.183594 367.890625"/><path fill="currentColor" fill-rule="nonzero" d="M 312.585938 455.621094 L 312.585938 455.5625 C 312.585938 449.984375 316.757812 445.359375 322.5625 445.359375 C 326.140625 445.359375 328.285156 446.628906 330.253906 448.488281 L 328.734375 450.125 C 327.070312 448.546875 325.210938 447.417969 322.535156 447.417969 C 318.164062 447.417969 314.894531 450.96875 314.894531 455.507812 L 314.894531 455.5625 C 314.894531 460.128906 318.195312 463.710938 322.535156 463.710938 C 325.238281 463.710938 327.015625 462.667969 328.902344 460.863281 L 330.367188 462.300781 C 328.3125 464.386719 326.054688 465.765625 322.476562 465.765625 C 316.785156 465.765625 312.585938 461.285156 312.585938 455.621094"/><path fill="currentColor" fill-rule="nonzero" d="M 342.710938 445.699219 L 344.9375 445.699219 L 344.9375 454.464844 L 356.320312 454.464844 L 356.320312 445.699219 L 358.546875 445.699219 L 358.546875 465.425781 L 356.320312 465.425781 L 356.320312 456.550781 L 344.9375 456.550781 L 344.9375 465.425781 L 342.710938 465.425781 Z M 342.710938 445.699219"/><path fill="currentColor" fill-rule="nonzero" d="M 372.269531 457.171875 L 372.269531 445.699219 L 374.496094 445.699219 L 374.496094 457.03125 C 374.496094 461.285156 376.75 463.679688 380.527344 463.679688 C 384.164062 463.679688 386.472656 461.480469 386.472656 457.171875 L 386.472656 445.699219 L 388.703125 445.699219 L 388.703125 457 C 388.703125 462.75 385.402344 465.738281 380.472656 465.738281 C 375.597656 465.738281 372.269531 462.75 372.269531 457.171875"/><path fill="currentColor" fill-rule="nonzero" d="M 410.707031 455.761719 C 413.667969 455.761719 415.78125 454.238281 415.78125 451.703125 L 415.78125 451.648438 C 415.78125 449.222656 413.921875 447.757812 410.738281 447.757812 L 404.648438 447.757812 L 404.648438 455.761719 Z M 402.421875 445.699219 L 410.90625 445.699219 C 413.328125 445.699219 415.273438 446.433594 416.515625 447.671875 C 417.472656 448.628906 418.035156 450.011719 418.035156 451.5625 L 418.035156 451.617188 C 418.035156 454.886719 415.78125 456.804688 412.679688 457.367188 L 418.742188 465.425781 L 416.007812 465.425781 L 410.285156 457.761719 L 404.648438 457.761719 L 404.648438 465.425781 L 402.421875 465.425781 Z M 402.421875 445.699219"/><path fill="currentColor" fill-rule="nonzero" d="M 430.378906 455.621094 L 430.378906 455.5625 C 430.378906 449.984375 434.546875 445.359375 440.355469 445.359375 C 443.933594 445.359375 446.074219 446.628906 448.046875 448.488281 L 446.527344 450.125 C 444.863281 448.546875 443.003906 447.417969 440.324219 447.417969 C 435.957031 447.417969 432.6875 450.96875 432.6875 455.507812 L 432.6875 455.5625 C 432.6875 460.128906 435.984375 463.710938 440.324219 463.710938 C 443.03125 463.710938 444.808594 462.667969 446.695312 460.863281 L 448.160156 462.300781 C 446.101562 464.386719 443.847656 465.765625 440.269531 465.765625 C 434.578125 465.765625 430.378906 461.285156 430.378906 455.621094"/><path fill="currentColor" fill-rule="nonzero" d="M 460.503906 445.699219 L 462.726562 445.699219 L 462.726562 454.464844 L 474.113281 454.464844 L 474.113281 445.699219 L 476.339844 445.699219 L 476.339844 465.425781 L 474.113281 465.425781 L 474.113281 456.550781 L 462.726562 456.550781 L 462.726562 465.425781 L 460.503906 465.425781 Z M 460.503906 445.699219"/></svg></div>
+    <div class="closer" id="s8text"><span class="cmark sm"><svg class="claudemark" aria-hidden="true" width="248" height="248" viewBox="0 0 248 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M52.4285 162.873L98.7844 136.879L99.5485 134.602L98.7844 133.334H96.4921L88.7237 132.862L62.2346 132.153L39.3113 131.207L17.0249 130.026L11.4214 128.844L6.2 121.873L6.7094 118.447L11.4214 115.257L18.171 115.847L33.0711 116.911L55.485 118.447L71.6586 119.392L95.728 121.873H99.5485L100.058 120.337L98.7844 119.392L97.7656 118.447L74.5877 102.732L49.4995 86.1905L36.3823 76.62L29.3779 71.7757L25.8121 67.2858L24.2839 57.3608L30.6515 50.2716L39.3113 50.8623L41.4763 51.4531L50.2636 58.1879L68.9842 72.7209L93.4357 90.6804L97.0015 93.6343L98.4374 92.6652L98.6571 91.9801L97.0015 89.2625L83.757 65.2772L69.621 40.8192L63.2534 30.6579L61.5978 24.632C60.9565 22.1032 60.579 20.0111 60.579 17.4246L67.8381 7.49965L71.9133 6.19995L81.7193 7.49965L85.7946 11.0443L91.9074 24.9865L101.714 46.8451L116.996 76.62L121.453 85.4816L123.873 93.6343L124.764 96.1155H126.292V94.6976L127.566 77.9197L129.858 57.3608L132.15 30.8942L132.915 23.4505L136.608 14.4708L143.994 9.62643L149.725 12.344L154.437 19.0788L153.8 23.4505L150.998 41.6463L145.522 70.1215L141.957 89.2625H143.994L146.414 86.7813L156.093 74.0206L172.266 53.698L179.398 45.6635L187.803 36.802L193.152 32.5484H203.34L210.726 43.6549L207.415 55.1159L196.972 68.3492L188.312 79.5739L175.896 96.2095L168.191 109.585L168.882 110.689L170.738 110.53L198.755 104.504L213.91 101.787L231.994 98.7149L240.144 102.496L241.036 106.395L237.852 114.311L218.495 119.037L195.826 123.645L162.07 131.592L161.696 131.893L162.137 132.547L177.36 133.925L183.855 134.279H199.774L229.447 136.524L237.215 141.605L241.8 147.867L241.036 152.711L229.065 158.737L213.019 154.956L175.45 145.977L162.587 142.787H160.805V143.85L171.502 154.366L191.242 172.089L215.82 195.011L217.094 200.682L213.91 205.172L210.599 204.699L188.949 188.394L180.544 181.069L161.696 165.118H160.422V166.772L164.752 173.152L187.803 207.771L188.949 218.405L187.294 221.832L181.308 223.959L174.813 222.777L161.187 203.754L147.305 182.486L136.098 163.345L134.745 164.2L128.075 235.42L125.019 239.082L117.887 241.8L111.902 237.31L108.718 229.984L111.902 215.452L115.722 196.547L118.779 181.541L121.58 162.873L123.291 156.636L123.14 156.219L121.773 156.449L107.699 175.752L86.304 204.699L69.3663 222.777L65.291 224.431L58.2867 220.768L58.9235 214.27L62.8713 208.48L86.304 178.705L100.44 160.155L109.551 149.507L109.462 147.967L108.959 147.924L46.6977 188.512L35.6182 189.93L30.7788 185.44L31.4156 178.115L33.7079 175.752L52.4285 162.873Z" fill="#D97757"/>
+</svg>
+</span><span>That’s Claude Duet.</span></div>
+    <div class="footer" id="s8foot">risechurchtx.com</div>
+  </div>
+      </div>
+    </section>
+    <div id="c1" class="clip cap" data-start="3.0" data-duration="5.9" data-track-index="2" data-track-kind="captions"><span class="captext" id="c1t">Claude Duet is a personal Claude you simply text, like a teammate who already knows your week.</span></div>
+    <div id="c2" class="clip cap" data-start="9.0" data-duration="3.6" data-track-index="2" data-track-kind="captions"><span class="captext" id="c2t">It reads your connected Gmail, calendar and Drive.</span></div>
+    <div id="c3" class="clip cap" data-start="12.6" data-duration="4.3" data-track-index="2" data-track-kind="captions"><span class="captext" id="c3t">It keeps your tasks in one list and sends you a morning brief.</span></div>
+    <div id="c4" class="clip cap" data-start="16.9" data-duration="5.0" data-track-index="2" data-track-kind="captions"><span class="captext" id="c4t">It checks in when something needs you, and handles the longer work in the background while you keep moving.</span></div>
+    <div id="c5" class="clip cap" data-start="22.0" data-duration="2.95" data-track-index="2" data-track-kind="captions"><span class="captext" id="c5t">Text it: who still owes receipts this month?</span></div>
+    <div id="c6" class="clip cap" data-start="24.95" data-duration="5.4" data-track-index="2" data-track-kind="captions"><span class="captext" id="c6t">It pulls the answer from your mail and sheets, and drafts a friendly nudge for each department.</span></div>
+    <div id="c7" class="clip cap" data-start="30.4" data-duration="7.05" data-track-index="2" data-track-kind="captions"><span class="captext" id="c7t">Before each department budget meeting, it hands you a one-page brief built from the emails and spreadsheets you already have.</span></div>
+    <div id="c8" class="clip cap" data-start="37.5" data-duration="2.95" data-track-index="2" data-track-kind="captions"><span class="captext" id="c8t">For events like the serve team Christmas party,</span></div>
+    <div id="c9" class="clip cap" data-start="40.45" data-duration="5.1" data-track-index="2" data-track-kind="captions"><span class="captext" id="c9t">it tracks the to-dos, holds the dates, and drafts the follow-up email for you to send.</span></div>
+    <div id="c10" class="clip cap" data-start="45.6" data-duration="5.7" data-track-index="2" data-track-kind="captions"><span class="captext" id="c10t">And before Tuesday’s staff meeting, it turns your updates into ready proposals and FYIs,</span></div>
+    <div id="c11" class="clip cap" data-start="51.3" data-duration="2.45" data-track-index="2" data-track-kind="captions"><span class="captext" id="c11t">so the meeting stays about decisions.</span></div>
+    <div id="c12" class="clip cap" data-start="53.9" data-duration="4.6" data-track-index="2" data-track-kind="captions"><span class="captext" id="c12t">Every step that sends, pays, or can’t be undone waits for your yes.</span></div>
+    <div id="c13" class="clip cap" data-start="58.5" data-duration="5.2" data-track-index="2" data-track-kind="captions"><span class="captext" id="c13t">And money always goes to a person for approval. Claude never buys anything on its own.</span></div>
+    <audio id="voice" class="clip" src="assets/voice.m4a" data-start="0" data-track-index="3" data-volume="1"></audio>
+    </div>
+    <script>
+const F = 1 / 30;
+const tl = gsap.timeline({ paused: true });
+// Scene beats were designed on a 77 s silent cut; R() moves each beat onto the voiceover.
+const A = [[0,0],[0.5,0.4],[3.65,2.6],[4.1,3.05],[6.3,6.9],[8.65,8.65],[9,9],
+  [13.1,12.7],[15.0,15.0],[17.4,17.0],[19.2,18.6],[21.65,21.65],[22,22],
+  [22.8,22.8],[25.6,25.0],[27.3,27.4],[30.65,30.05],[31,30.4],
+  [31.25,30.65],[33.2,32.6],[35.6,35.0],[38.65,37.15],[39,37.5],
+  [39.25,37.75],[43.4,40.5],[44.3,41.5],[45.2,43.0],[45.6,43.6],[47.65,45.25],[48,45.6],
+  [48.25,45.85],[50.7,49.3],[51.3,49.8],[53.2,52.6],[56.65,53.45],[57,53.8],
+  [57.2,54.0],[58.0,54.6],[59.2,57.0],[60.6,57.9],[61.7,58.35],[62.0,58.65],[62.1,58.7],[64.3,61.15],[67.65,63.45],[68,63.8],
+  [68.3,64.0],[69.4,65.4],[71.7,66.5],[72.05,66.85],[72.15,66.9],[72.5,67.0],[73.3,67.6],[77,70]];
+const R = (t) => { for (let i = 1; i < A.length; i++) { const [a0, b0] = A[i - 1], [a1, b1] = A[i]; if (t <= a1) return b0 + (t - a0) * (b1 - b0) / (a1 - a0); } return t; };
+const T = { to: (s, v, p) => tl.to(s, v, R(p)), fromTo: (s, a, b, p) => tl.fromTo(s, a, b, R(p)), set: (s, v, p) => tl.set(s, v, R(p)) };
+const out = (sel, at, d) => { T.to(sel, { opacity: 0, y: -24, duration: d, ease: "power2.in" }, at); };
+
+// Background: the Rise weighted circle, drifting slowly the whole film.
+tl.to("#bgring", { scale: 1.05, x: -40, y: 20, duration: 69.6, ease: "sine.inOut" }, 0.2);
+
+// S1: intro (0 to 9)
+T.fromTo("#s1head .w", { y: 46, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "back.out(1.7)", stagger: 3 * F }, 0.5);
+T.fromTo("#s1ul", { scaleX: 0 }, { scaleX: 1, duration: 20 * F, ease: "expo.out" }, 1.7);
+T.to("#s1head", { opacity: 0, y: -30, duration: 10 * F, ease: "power2.in" }, 3.65);
+T.to("#s1eye", { opacity: 0, duration: 8 * F, ease: "power1.in" }, 3.7);
+T.set("#s1head", { opacity: 0 }, 4.0);
+T.set("#s1eye", { opacity: 0 }, 4.0);
+T.fromTo("#s1cm", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 16 * F, ease: "circ.out" }, 4.1);
+T.fromTo("#s1wm", { scale: 0.93, opacity: 0, transformOrigin: "left center" }, { scale: 1, opacity: 1, duration: 16 * F, ease: "back.out(1.7)" }, 4.3);
+T.fromTo("#s1sub", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 16 * F, ease: "power3.out" }, 4.3 + 6 * F);
+T.fromTo("#s1weye", { opacity: 0 }, { opacity: 1, duration: 10 * F, ease: "power1.out" }, 6.3);
+T.fromTo("#s1week .day", { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 12 * F, ease: "power4.out", stagger: 2 * F }, 6.4);
+T.fromTo("#s1dot", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 10 * F, ease: "back.out(2.6)" }, 7.2);
+T.to("#s1tue", { backgroundColor: "#26334A", color: "#FFFFFF", duration: 8 * F, ease: "power2.out" }, 7.2);
+out("#s1i", 8.65, 8 * F);
+T.set("#s1i", { opacity: 0 }, 9);
+
+// S2: what it does (9 to 22)
+T.fromTo("#s2eye", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 14 * F, ease: "power3.out" }, 9.2);
+T.fromTo("#s2title", { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "power4.out" }, 9.3);
+T.fromTo(".src", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 16 * F, ease: "power3.out", stagger: 4 * F }, 9.6);
+T.fromTo("#s2hub", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 18 * F, ease: "back.out(1.7)" }, 10.3);
+T.fromTo("#wi1, #wi2, #wi3", { strokeDasharray: 400, strokeDashoffset: 400 }, { strokeDashoffset: 0, duration: 20 * F, ease: "expo.out", stagger: 3 * F }, 10.8);
+const outs = [["#out1", "#wo1", 13.1], ["#out2", "#wo2", 15.0], ["#out3", "#wo3", 17.4], ["#out4", "#wo4", 19.2]];
+outs.forEach(([o, w, t]) => {
+  T.fromTo(w, { strokeDasharray: 320, strokeDashoffset: 320 }, { strokeDashoffset: 0, duration: 14 * F, ease: "expo.out" }, t);
+  T.fromTo(o, { x: 50, opacity: 0 }, { x: 0, opacity: 1, duration: 14 * F, ease: "power2.out" }, t + 4 * F);
+  T.fromTo(o + " b", { x: 14 }, { x: 0, duration: 14 * F, ease: "power2.out" }, t + 7 * F);
+});
+T.to("#s2hub", { scale: 1.07, duration: 6 * F, ease: "power1.out" }, 16.3);
+T.to("#s2hub", { scale: 1, duration: 12 * F, ease: "power1.inOut" }, 16.3 + 6 * F);
+out("#s2i", 21.65, 8 * F);
+T.set("#s2i", { opacity: 0 }, 22);
+
+// Numbered scenes share an opening: numeral, label, title.
+function opener(id, t) {
+  T.fromTo(id + "num", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "power4.out" }, t);
+  T.fromTo(id + "eye", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 14 * F, ease: "power3.out" }, t + 6 * F);
+  T.fromTo(id + "title", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 16 * F, ease: "power3.out" }, t + 10 * F);
+}
+
+// S3: receipts (22 to 31)
+opener("#s3", 22.25);
+T.fromTo("#s3panel", { x: 70, opacity: 0 }, { x: 0, opacity: 1, duration: 20 * F, ease: "expo.out" }, 22.35);
+T.fromTo("#s3ask", { y: 30, scale: 0.95, opacity: 0, transformOrigin: "right bottom" }, { y: 0, scale: 1, opacity: 1, duration: 16 * F, ease: "back.out(1.7)" }, 22.8);
+T.fromTo("#s3from", { opacity: 0 }, { opacity: 1, duration: 10 * F, ease: "power1.out" }, 25.6);
+T.fromTo("#s3panel .row", { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 12 * F, ease: "power3.out", stagger: 4 * F }, 25.9);
+T.fromTo("#s3panel .chip", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 10 * F, ease: "back.out(2.6)", stagger: 5 * F }, 27.3);
+out("#s3i", 30.65, 8 * F);
+T.set("#s3i", { opacity: 0 }, 31);
+
+// S4: budget meetings (31 to 39)
+opener("#s4", 31.25);
+T.fromTo("#t1, #t2", { y: 34, opacity: 0 }, { y: 0, opacity: 1, duration: 16 * F, ease: "power3.out", stagger: 4 * F }, 31.6);
+T.fromTo("#s4w1, #s4w2", { strokeDasharray: 300, strokeDashoffset: 300 }, { strokeDashoffset: 0, duration: 16 * F, ease: "expo.out", stagger: 2 * F }, 32.9);
+T.fromTo("#s4doc", { scale: 0.94, opacity: 0, transformOrigin: "center center" }, { scale: 1, opacity: 1, duration: 20 * F, ease: "expo.out" }, 33.2);
+T.fromTo("#s4doc .dl", { scaleX: 0 }, { scaleX: 1, duration: 14 * F, ease: "circ.out", stagger: 3 * F }, 33.7);
+T.fromTo("#s4mark", { scaleX: 0 }, { scaleX: 1, duration: 18 * F, ease: "power2.inOut" }, 35.6);
+out("#s4i", 38.65, 8 * F);
+T.set("#s4i", { opacity: 0 }, 39);
+
+// S5: events (39 to 48)
+opener("#s5", 39.25);
+T.fromTo("#s5card", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "power3.out" }, 39.5);
+T.fromTo("#s5date", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 10 * F, ease: "back.out(1.7)" }, 40.3);
+[43.4, 44.3, 45.2].forEach((t, i) => {
+  T.fromTo("#k" + (i + 1), { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 12 * F, ease: "power2.out" }, t);
+  T.fromTo("#tk" + (i + 1), { scale: 0.9 }, { scale: 1, duration: 10 * F, ease: "back.out(2.6)" }, t + 3 * F);
+});
+T.fromTo("#s5tag", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 12 * F, ease: "power4.out" }, 45.6);
+out("#s5i", 47.65, 8 * F);
+T.set("#s5i", { opacity: 0 }, 48);
+
+// S6: Tuesday staff meeting (48 to 57)
+opener("#s6", 48.25);
+const pile = [[1240, 330, -4], [1270, 360, 3], [1220, 390, -2], [1260, 420, 5], [1230, 450, -3], [1250, 480, 2]];
+const dest = [[960, 340], [1380, 340], [960, 480], [1380, 480], [960, 620], [1380, 620]];
+pile.forEach(([x, y, r], i) => {
+  T.set("#n" + (i + 1), { x: x, y: y, rotation: r }, 48);
+  T.fromTo("#n" + (i + 1), { opacity: 0, scale: 0.93 }, { opacity: 1, scale: 1, duration: 12 * F, ease: "power2.out" }, 48.6 + i * 3 * F);
+});
+T.fromTo("#h1, #h2", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 14 * F, ease: "power3.out", stagger: 4 * F }, 50.7);
+dest.forEach(([x, y], i) => {
+  T.to("#n" + (i + 1), { x: x, y: y, rotation: 0, duration: 18 * F, ease: "power3.inOut" }, 51.3 + i * 3 * F);
+});
+T.fromTo("#h1ul", { scaleX: 0 }, { scaleX: 1, duration: 18 * F, ease: "expo.out" }, 53.2);
+out("#s6i", 56.65, 8 * F);
+T.set("#s6i", { opacity: 0 }, 57);
+
+// S7: guardrail (57 to 68)
+T.fromTo("#s7eye", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 14 * F, ease: "power3.out" }, 57.2);
+T.fromTo("#s7head", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "back.out(1.7)" }, 57.35);
+T.fromTo("#s7a .pill", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 12 * F, ease: "power4.out", stagger: 3 * F }, 58.0);
+T.fromTo("#s7yes", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 16 * F, ease: "back.out(1.7)" }, 59.2);
+T.to("#s7yes", { scale: 0.95, duration: 4 * F, ease: "power2.in" }, 60.6);
+T.to("#s7yes", { scale: 1, duration: 10 * F, ease: "back.out(2.6)" }, 60.6 + 4 * F);
+T.to("#s7a", { opacity: 0, y: -24, duration: 8 * F, ease: "power2.in" }, 61.7);
+T.set("#s7a", { opacity: 0 }, 62.0);
+T.fromTo("#s7person", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 16 * F, ease: "power3.out" }, 62.1);
+T.fromTo("#s7money", { x: -36, opacity: 0 }, { x: 0, opacity: 1, duration: 16 * F, ease: "power3.out" }, 62.1 + 3 * F);
+T.fromTo("#s7never", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 22 * F, ease: "power2.inOut" }, 64.3);
+out("#s7i", 67.65, 8 * F);
+T.set("#s7i", { opacity: 0 }, 68);
+
+// S8: close (68 to 77)
+T.fromTo("#s8l1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "back.out(1.7)" }, 68.3);
+T.fromTo("#s8l2", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "power4.out" }, 69.4);
+T.to("#s8a", { opacity: 0, y: -24, duration: 10 * F, ease: "power2.in" }, 71.7);
+T.set("#s8a", { opacity: 0 }, 72.05);
+T.fromTo("#s8logo", { scale: 0.94, opacity: 0, transformOrigin: "center bottom" }, { scale: 1, opacity: 1, duration: 24 * F, ease: "expo.out" }, 72.15);
+T.fromTo("#s8text", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 18 * F, ease: "power3.out" }, 72.5);
+T.fromTo("#s8foot", { opacity: 0 }, { opacity: 1, duration: 14 * F, ease: "power1.out" }, 73.3);
+
+// Captions: each line rises in, then cuts to the next.
+document.querySelectorAll(".captext").forEach((el) => {
+  const start = parseFloat(el.parentElement.dataset.start);
+  tl.fromTo(el, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 6 * F, ease: "power2.out" }, start + 2 * F);
+});
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+  </body>
+</html>
